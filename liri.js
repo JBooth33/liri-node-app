@@ -46,19 +46,39 @@ console.log(data);
 
 
 //function for displaying tweets
-/*
-var params = {screen_name: 'javy23baez'};
-client.get('statuses/user_timeline', params, function(error, tweets, response) {
-  if (!error) {
-    console.log(tweets);
-  }
-});
-*/
+
+function getTweets() {
+  var params = {screen_name: 'javy23baez'};
+  client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    if (!error) {
+      for(var i = 0; i < 20; i++) {
+        var date = tweets[i].created_at;
+        console.log("@javy23baez: " + tweets[i].text + " Tweeted On: " + date.substring(0, 19));
+      }
+    }
+  });
+}
+
+
 
 //function for displaying movie info
-function getMovieInfo (movie) {
+function getMovieInfo () {
+  var movie = process.argv[3];
   var omdbURL = "http://www.omdbapi.com/?apikey=" + process.env.OMDB_KEY + "&t=" + movie + "&plot=short&tomatoes=true";
   console.log (omdbURL);
+  request(omdbURL, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      console.log("Title: " + JSON.parse(body).Title);
+      console.log("Release Year: " + JSON.parse(body).Year);
+      console.log("IMDB Rating: " + JSON.parse(body).Ratings[0].Value);
+      console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+      console.log("Country Where Movie Produced: " + JSON.parse(body).Country);
+      console.log("Language: " + JSON.parse(body).Language);
+      console.log("Plot: " + JSON.parse(body).Plot);
+      console.log("Actors: " + JSON.parse(body).Actors);
+    }
+  });
 }
 
 getMovieInfo('It');
+getTweets();
