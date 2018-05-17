@@ -33,16 +33,25 @@ switch(command) {
 
 
 //function for displaying song
-/*var spotify = new Spotify(keys.spotify);
+function getSongInfo() {
+  var Spotify = require('node-spotify-api');
  
-spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-  if (err) {
-    return console.log('Error occurred: ' + err);
-  }
- 
-console.log(data); 
+var spotify = new Spotify({
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
 });
-*/
+ 
+spotify
+  .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
+  .then(function(data) {
+    console.log(data); 
+  })
+  .catch(function(err) {
+    console.error('Error occurred: ' + err); 
+  });
+}
+
+
 
 
 //function for displaying tweets
@@ -82,3 +91,4 @@ function getMovieInfo () {
 
 getMovieInfo('It');
 getTweets();
+getSongInfo();
