@@ -63,9 +63,6 @@ spotify.search({ type: 'track', query: userChoice, limit: 1}, function(err, data
   
 }
 
-
-
-
 //function for displaying tweets
 
 function getTweets() {
@@ -79,8 +76,6 @@ function getTweets() {
     }
   });
 }
-
-
 
 //function for displaying movie info
 function getMovieInfo () {
@@ -102,6 +97,16 @@ function getMovieInfo () {
   });
 }
 
+//function that takes command from random.txt
+function doSomething() {
+  fs.readFile('random.txt', 'utf8', function(error, data) {
+    var text = data.split(',');
+    var song = text[1];
+    thatWay(song);
+  });
+}
+
+//function for if user does not enter song
 function thatWay() {
   var Spotify = require('node-spotify-api');
  
@@ -123,6 +128,7 @@ spotify.search({ type: 'track', query: "I-want-it-that-way", limit: 1}, function
 });
 }
 
+//function for if user does not enter movie
 function mrNobody() {
   var movie = "mr.-nobody";
   var omdbURL = "http://www.omdbapi.com/?apikey=" + process.env.OMDB_KEY + "&t=" + movie + "&plot=short&tomatoes=true";
@@ -141,3 +147,6 @@ function mrNobody() {
     } 
   });
 }
+
+
+
